@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tegh Industries - Learning Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Dell Sans', 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh; 
+            color: #333;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .nav { 
+            background: gray;
+            color: white; 
+            padding: 0 2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            height: 70px;
+        }
+        .nav h1 { 
+            margin: 0; 
+            color: white; 
+            font-weight: 600; 
+            font-size: 20px;
+            cursor: pointer;
+            letter-spacing: -0.5px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group input, .form-group select { 
+            width: 100%; 
+            padding: 12px 16px; 
+            border: 1px solid #d1d5db; 
+            border-radius: 2px; 
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+            background: #fff;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group select:focus { 
+            outline: none; 
+            border-color: #007db8; 
+            box-shadow: 0 0 0 2px rgba(0,125,184,0.1);
+        }
+        .btn { 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 2px; 
+            cursor: pointer; 
+            margin: 4px; 
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+            text-transform: none;
+        }
+        .btn:hover { background-color: rgba(0,0,0,0.05); }
+        .btn-primary { background: #007db8; color: white; }
+        .btn-primary:hover { background: #006ba1; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-danger:hover { background: #c82333; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-outline { background: transparent; color: white; border: 1px solid white; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .course-card { 
+            background: #fff;
+            padding: 24px; 
+            margin: 10px; 
+            border-radius: 2px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); 
+            width: 300px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
+        }
+        .course-card:hover { 
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); 
+            transform: translateY(-1px);
+        }
+        .course-card.premium { border-left: 3px solid #007db8; }
+        .course-card.free { border-left: 3px solid #28a745; }
+        .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin: 32px 0; }
+        .hidden { display: none; }
+        .alert { 
+            padding: 12px 16px; 
+            margin: 16px 0; 
+            border-radius: 2px; 
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+        .alert-success { background: #d4edda; color: #155724; border-color: #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+        .footer { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: #333;
+            color: #fff; 
+            text-align: center; 
+            padding: 12px; 
+            z-index: 1000;
+            font-size: 16px;
+        }
+        .footer a { color: #007db8; text-decoration: none; }
+        .dell-card {
+            background: #fff;
+            border-radius: 2px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #007db8 0%, #005a87 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            /* margin: 0 -20px 40px -20px; */
+        }
+        .hero-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+        .hero-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .feature-card {
+            background: #fff;
+            padding: 32px;
+            border-radius: 2px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.2s ease;
+        }
+        .feature-card:hover {
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            transform: translateY(-1px);
+        }
+        .section-title {
+            text-align: center;
+            margin: 40px 0;
+            color: #333;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <h1 onclick="showLanding()" style="cursor: pointer;">Tegh Industries LMS</h1>
+        <div id="nav-buttons">
+            <button class="btn btn-outline" onclick="showLogin()">Sign In</button>
+            <button class="btn btn-success" onclick="showSignup()">Create Account</button>
+        </div>
+        <div id="user-nav" class="hidden">
+            <button class="btn btn-outline" onclick="showLanding()">Home</button>
+            <button class="btn btn-outline" onclick="showDashboard()">Dashboard</button>
+            <button class="btn btn-outline" onclick="showMyPurchases()">My Purchases</button>
+            <button class="btn btn-danger" onclick="logout()">Sign Out</button>
+        </div>
+        <div id="admin-nav" class="hidden">
+            <button class="btn btn-outline" onclick="showLanding()">Home</button>
+            <button class="btn btn-outline" onclick="showDashboard()">Dashboard</button>
+            <button class="btn btn-outline" onclick="showVoucherGenerator()">Generate Vouchers</button>
+            <button class="btn btn-outline" onclick="showVoucherHistory()">Voucher History</button>
+            <button class="btn btn-outline" onclick="showCourseManager()">Manage Courses</button>
+            <button class="btn btn-danger" onclick="logout()">Sign Out</button>
+        </div>
+    </div>
+    <div class="hero-section">
+        <h1>Tegh Industries LMS</h1>
+        <p>Empowering minds through innovative learning solutions</p>
+        <button class="btn btn-success" onclick="showSignup()" style="padding: 16px 32px; font-size: 16px; margin-right: 16px;">Get Started</button>
+        <button class="btn btn-outline" onclick="showLogin()" style="padding: 16px 32px; font-size: 16px;">Sign In</button>
+    </div>
+
+    <div class="container">
+        <div id="messages"></div>
+
+        <!-- Landing Page -->
+        <div id="landing-page">
+            <!-- Hero Section -->
+           
+
+            <!-- About Section -->
+            <div style="margin-bottom: 60px;">
+                <h2 class="section-title">About Tegh Industries</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3 style="color: #007db8; margin-bottom: 16px; font-size: 20px; font-weight: 600;">Our Mission</h3>
+                        <p style="color: #666; line-height: 1.6;">To provide cutting-edge learning management solutions that transform how organizations deliver education and training.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="color: #007db8; margin-bottom: 16px; font-size: 20px; font-weight: 600;">Innovation</h3>
+                        <p style="color: #666; line-height: 1.6;">Leveraging the latest technology to create engaging, interactive, and effective learning experiences for all users.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="color: #007db8; margin-bottom: 16px; font-size: 20px; font-weight: 600;">Excellence</h3>
+                        <p style="color: #666; line-height: 1.6;">Committed to delivering high-quality educational content and maintaining the highest standards in learning technology.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What We Do Section -->
+            <div style="margin-bottom: 60px;">
+                <h2 class="section-title">What We Do</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+                    <div class="feature-card">
+                        <h4 style="color: #333; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Course Management</h4>
+                        <p style="color: #666; line-height: 1.5;">Comprehensive course creation and management tools</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #333; margin-bottom: 12px; font-size: 16px; font-weight: 600;">User Management</h4>
+                        <p style="color: #666; line-height: 1.5;">Advanced user roles and permission systems</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #333; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Analytics</h4>
+                        <p style="color: #666; line-height: 1.5;">Detailed learning analytics and progress tracking</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4 style="color: #333; margin-bottom: 12px; font-size: 16px; font-weight: 600;">Voucher System</h4>
+                        <p style="color: #666; line-height: 1.5;">Flexible voucher and discount management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Courses -->
+            <div style="margin-bottom: 60px;">
+                <h2 class="section-title">Featured Courses</h2>
+                <div id="featured-courses" class="courses-grid"></div>
+                <div style="text-align: center; margin-top: 32px;">
+                    <button class="btn btn-primary" onclick="showAllCourses()" style="padding: 14px 28px; font-size: 16px;">View All Courses</button>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div style="margin-bottom: 60px;">
+                <h2 class="section-title">What Our Users Say</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+                    <div class="dell-card" style="padding: 32px;">
+                        <div style="color: #007db8; margin-bottom: 16px; font-size: 14px; font-weight: 600;">★★★★★</div>
+                        <p style="font-style: italic; margin-bottom: 20px; color: #666; line-height: 1.6;">"Tegh Industries LMS has revolutionized our training programs. The interface is intuitive and the course management features are outstanding."</p>
+                        <div style="font-weight: 600; color: #333;">- Sarah Johnson, Training Manager</div>
+                    </div>
+                    <div class="dell-card" style="padding: 32px;">
+                        <div style="color: #007db8; margin-bottom: 16px; font-size: 14px; font-weight: 600;">★★★★☆</div>
+                        <p style="font-style: italic; margin-bottom: 20px; color: #666; line-height: 1.6;">"The voucher system and user management capabilities have made our corporate training so much more efficient and organized."</p>
+                        <div style="font-weight: 600; color: #333;">- Michael Chen, HR Director</div>
+                    </div>
+                    <div class="dell-card" style="padding: 32px;">
+                        <div style="color: #007db8; margin-bottom: 16px; font-size: 14px; font-weight: 600;">★ ★ ★ ★ ★</div>
+                        <p style="font-style: italic; margin-bottom: 20px; color: #666; line-height: 1.6;">"Excellent platform with great analytics. We can track learner progress and engagement like never before."</p>
+                        <div style="font-weight: 600; color: #333;">- Emily Rodriguez, Learning Specialist</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="dell-card" style="text-align: center; padding: 50px 40px; margin-bottom: 80px;">
+                <h2 style="color: #333; margin-bottom: 24px; font-size: 28px; font-weight: 300;">Ready to Transform Your Learning?</h2>
+                <p style="color: #666; margin-bottom: 40px; font-size: 16px;">Join thousands of organizations already using Tegh Industries LMS</p>
+                <button class="btn btn-primary" onclick="showSignup()" style="padding: 16px 32px; font-size: 16px; margin-right: 16px;">Start Free Trial</button>
+                <button class="btn btn-success" onclick="showLogin()" style="padding: 16px 32px; font-size: 16px;">Sign In to Account</button>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="hidden dell-card" style="max-width: 420px; margin: auto; padding: 50px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="color: #333; margin-bottom: 12px; font-size: 28px; font-weight: 300;">Welcome Back</h2>
+                <p style="color: #666; font-size: 14px;">Sign in to Tegh Industries Learning Portal</p>
+            </div>
+            <div class="form-group">
+                <input type="text" id="login-username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" onclick="login()" style="width: 100%; padding: 18px; font-size: 16px; font-weight: 600;">Sign In</button>
+            <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                <p style="color: #666;">New to Tegh Industries? <a href="#" onclick="showSignup()" style="color: #007db8; text-decoration: none; font-weight: 600;">Create Account</a></p>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signup-form" class="hidden dell-card" style="max-width: 420px; margin: auto; padding: 50px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="color: #333; margin-bottom: 12px; font-size: 28px; font-weight: 300;">Join Tegh Industries</h2>
+                <p style="color: #666; font-size: 14px;">Create your learning account today</p>
+            </div>
+            <div class="form-group">
+                <input type="text" id="signup-username" placeholder="Choose a username">
+            </div>
+            <div class="form-group">
+                <input type="password" id="signup-password" placeholder="Create a password">
+            </div>
+            <button class="btn btn-success" onclick="signup()" style="width: 100%; padding: 18px; font-size: 16px; font-weight: 600;">Create Account</button>
+            <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
+                <p style="color: #666;">Already have an account? <a href="#" onclick="showLogin()" style="color: #007db8; text-decoration: none; font-weight: 600;">Sign In</a></p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="hidden">
+            <h2>Available Courses</h2>
+            <div style="margin: 20px 0;">
+                <h3>Redeem Voucher</h3>
+                <input type="text" id="voucher-code" placeholder="Enter voucher code" style="padding: 10px; margin-right: 10px;">
+                <button class="btn btn-primary" onclick="redeemVoucher()">Redeem</button>
+            </div>
+            <div id="courses-list" class="courses-grid"></div>
+            
+           
+
+            <div id="admin-panel" class="hidden">
+                <h3>Admin Panel - Order History</h3>
+                <div id="admin-orders" style="display:flex;overflow: hidden; margin-bottom: 30px;"></div>
+            </div>
+        </div>
+
+        <!-- My Purchases Page -->
+        <div id="my-purchases" class="hidden">
+            <h2>My Purchases</h2>
+            <div id="user-details" style="background: white; padding: 20px; border-radius: 2px; margin-bottom: 20px;">
+                <h3>User Details</h3>
+                <p><strong>Username:</strong> <span id="user-username"></span></p>
+                <p><strong>Badge ID:</strong> <span id="user-badge"></span></p>
+                <p><strong>Account Type:</strong> <span id="user-type"></span></p>
+            </div>
+            <div id="purchased-courses" class="courses-grid"></div>
+        </div>
+
+        <!-- Voucher Generator Page -->
+        <div id="voucher-generator" class="hidden">
+            <h2>Generate Vouchers</h2>
+            <div class="course-card">
+                <h3>Create New Voucher</h3>
+                <div class="form-group">
+                    <select id="voucher-course-select">
+                        <option value="">Select Course</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="generateVoucher()">Generate Voucher</button>
+            </div>
+        </div>
+
+        <!-- Voucher History Page -->
+        <div id="voucher-history" class="hidden">
+            <h2>Voucher History</h2>
+            <div id="vouchers-list"></div>
+        </div>
+
+        <!-- Course Manager Page -->
+        <div id="course-manager" class="hidden">
+            <h2>Manage Courses</h2>
+            <div class="course-card">
+                <h3>Add New Course</h3>
+                <div class="form-group">
+                    <input type="text" id="course-title" placeholder="Course Title">
+                </div>
+                <div class="form-group">
+                    <select id="course-type">
+                        <option value="free">Free</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                    <input type="number" id="course-price" placeholder="Price" style="width: 48%; margin-left: 4%;">
+                </div>
+                <button class="btn btn-success" onclick="addCourse()">Add Course</button>
+            </div>
+            <div id="courses-management-list" style="display: flex;"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Tegh Industries LMS | Lab created by <a href="http://linktr.ee/gurudattchoudhary" target="_blank">Gurudatt Choudhary</a></p>
+    </footer>
+
+<script src="bundle.js"> </script>
+</body>
+</html>
