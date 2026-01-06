@@ -19,7 +19,9 @@ app.get('/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'bundle.js'));
 });
 
-app.use(express.static('public'));
+app.get('/payment.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'payment.html'));
+});
 
 // MongoDB connection
 const connectDB = async () => {
