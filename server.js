@@ -23,6 +23,10 @@ app.get('/payment.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'payment.html'));
 });
 
+app.get('/credit.txt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'credit.txt'));
+});
+
 // MongoDB connection
 const connectDB = async () => {
   try {
