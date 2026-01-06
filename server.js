@@ -13,6 +13,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+// Serve static files explicitly
+app.get('/bundle.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'public', 'bundle.js'));
+});
+
 app.use(express.static('public'));
 
 // MongoDB connection
